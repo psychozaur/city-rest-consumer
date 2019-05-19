@@ -1,11 +1,15 @@
 package com.rybickim.cityrestconsumer.repository;
 
 import com.rybickim.cityrestconsumer.config.Configuration;
-import com.rybickim.cityrestconsumer.data_transfer_object.City;
+import com.rybickim.cityrestconsumer.domain.City;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class DataRepository {
@@ -18,8 +22,7 @@ public class DataRepository {
     public DataRepository(RestTemplate restTemplate, Configuration configuration) {
         this.restTemplate = restTemplate;
         connectionAddress = configuration.getConnectionAddress();
-
-        receiveJson();
+        logger.debug("DataRepository(): " + restTemplate + ", " + configuration);
     }
 
     public RestTemplate getRestTemplate() {
@@ -30,8 +33,10 @@ public class DataRepository {
         return connectionAddress;
     }
 
-    public void receiveJson() {
-        Object response = restTemplate.getForObject(connectionAddress, City[].class);
+    public List<City> readCities() {
+        City[] response = restTemplate.getForObject(connectionAddress, City[].class);
         logger.debug("received response [{}]", response);
+
+        return Arrays.asList(response);
     }
 }

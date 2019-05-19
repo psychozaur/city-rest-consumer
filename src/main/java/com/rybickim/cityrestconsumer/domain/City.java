@@ -1,4 +1,4 @@
-package com.rybickim.cityrestconsumer.data_transfer_object;
+package com.rybickim.cityrestconsumer.domain;
 
 public class City {
 
